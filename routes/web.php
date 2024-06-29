@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeviceController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -23,6 +24,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 Route::get('/', function () {
     return view('0_Welcome');
 });
+
+Route::get('/users', [UserController::class,'index'])->name('users.index');
+Route::get('/users/create', [UserController::class,'createForm'])->name('users.createForm');
+Route::post('/users', [UserController::class,'store'])->name('users.store');
+
+Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+Route::get('/devices/create', [DeviceController::class, 'createForm'])->name('devices.createForm');
+Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
 
 // begin :: Login
 

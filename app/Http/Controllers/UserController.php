@@ -16,104 +16,129 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::latest()->get();
-        return view('2_account', compact('user'));
+        return view('user/menu_user');
     }
 
-    public function create(Request $request, User $newUser)
-    {
-        $data = $request->all();
-        //  $file = $request->file("faq-attachment");
-        $uuid = new Uuid();
-        $newUser->uuid = $uuid->uuid3();
-        $newUser->name = $data["name"];
-        $newUser->email = $data["email"];
-        // dd($data);
-        $newUser->password = Hash::make($data["password"]);
-
-        $newRole = new Role();
-        $newRole->uuid = $newUser->uuid;
-        $newRole->is_supervisor = false;
-        $newRole->is_admin = false;
-        $newRole->is_user = true;
-
-        Alert::success('Success', "Account Berhasil Ditambah")->autoClose(3000);
-        $newRole->save();
-        $newUser->save();
-
-
-        return redirect("/account/view/$newUser->uuid");
+    public function createForm(){
+        return view('user/add_user');
     }
-
-    public function view($uuid)
+    function store(Request $request)
     {
-        $user = User::where('uuid', '=', $uuid)->first();
-        // dd($user);
-        return view('user/view_user', compact('user'));
-    }
+        // try{.
+            $data =$request->all();
+            $newUser = new User();
+            $newUser->name = $data["name"];
+            $newUser->email = $data["email"];
+            $newUser->password = Hash::make($data["password"]);
+            $newUser->role = $data["role"];
+            $newUser->save();
 
-    public function update(Request $request, User $newUser)
-    {
-        // dd($idFaq);
-
-        $data = $request->all();
-
-        // dd($data);
-
-        $newUser = User::find($data["id"]);
-        $newUser->name = $data["name"];
-        $newUser->email = $data["email"];
-
-        // $role = Unit::where('units.uuid', '=', $data["uuid"])->first();
-        // if (!empty($role)) {
-        //     $role->check_humas = $request->has("check-humas") ?? false;
-        //     $role->check_renkeu = $request->has("check-renkeu") ?? false;
-        //     $role->check_spi = $request->has("check-spi") ?? false;
-        //     $role->check_umum = $request->has("check-umum") ?? false;
-        //     $role->check_hukum = $request->has("check-hukum") ?? false;
-        //     $role->check_investigasi = $request->has("check-investigasi") ?? false;
-        //     $role->check_kepaniteraan = $request->has("check-kepaniteraan") ?? false;
-        //     $role->check_sdm = $request->has("check-sdm") ?? false;
-        //     $role->check_tu = $request->has("check-tu") ?? false;
-        //     $role->save();
+        //     return redirect()->route('users.index')->with('success', 'User added successfully.');
+        // } catch(\Exception $e) {
+        //     return redirect()->back()->with('error', 'Failed to add user. Please try again.');
         // }
-
-        Alert::success('Success', "Data '$newUser->name'  Berhasil di Edit")->autoClose(3000);
-        $newUser->save();
-
-        return redirect()->back();
     }
 
-    public function resetPassword(Request $request, User $newUser)
-    {
-        // dd($idFaq);
-        $data = $request->all();
+    // public function index()
+    // {
+    //     $user = User::latest()->get();
+    //     return view('2_account', compact('user'));
+    // }
+
+    // public function create(Request $request, User $newUser)
+    // {
+    //     $data = $request->all();
+    //     //  $file = $request->file("faq-attachment");
+    //     $uuid = new Uuid();
+    //     $newUser->uuid = $uuid->uuid3();
+    //     $newUser->name = $data["name"];
+    //     $newUser->email = $data["email"];
+    //     // dd($data);
+    //     $newUser->password = Hash::make($data["password"]);
+
+    //     $newRole = new Role();
+    //     $newRole->uuid = $newUser->uuid;
+    //     $newRole->is_supervisor = false;
+    //     $newRole->is_admin = false;
+    //     $newRole->is_user = true;
+
+    //     Alert::success('Success', "Account Berhasil Ditambah")->autoClose(3000);
+    //     $newRole->save();
+    //     $newUser->save();
 
 
-        $newUser = User::find($data["id"]);
-        // dd($newUser);
-        $newUser->password = Hash::make($newUser->email);
-        // dd($newUser->password);
+    //     return redirect("/account/view/$newUser->uuid");
+    // }
 
-        Alert::success('Success', "Password Berhasil di Reset");
-        $newUser->save();
+    // public function view($uuid)
+    // {
+    //     $user = User::where('uuid', '=', $uuid)->first();
+    //     // dd($user);
+    //     return view('user/view_user', compact('user'));
+    // }
 
-        return redirect()->back();
-    }
+    // public function update(Request $request, User $newUser)
+    // {
+    //     // dd($idFaq);
 
-    public function delete($id)
-    {
-        $id = User::find($id);
-        $name = $id->name;
+    //     $data = $request->all();
 
-        $role = Role::where('uuid', "=", $id->uuid)->get()->first();
-        if (!empty($role)) {
-            $role->delete();
-        }
+    //     // dd($data);
 
-        $id->delete();
-        Alert::success('Account', $name . ", Berhasil Dihapus")->hideCloseButton();
+    //     $newUser = User::find($data["id"]);
+    //     $newUser->name = $data["name"];
+    //     $newUser->email = $data["email"];
 
-        return redirect()->back();
-    }
+    //     // $role = Unit::where('units.uuid', '=', $data["uuid"])->first();
+    //     // if (!empty($role)) {
+    //     //     $role->check_humas = $request->has("check-humas") ?? false;
+    //     //     $role->check_renkeu = $request->has("check-renkeu") ?? false;
+    //     //     $role->check_spi = $request->has("check-spi") ?? false;
+    //     //     $role->check_umum = $request->has("check-umum") ?? false;
+    //     //     $role->check_hukum = $request->has("check-hukum") ?? false;
+    //     //     $role->check_investigasi = $request->has("check-investigasi") ?? false;
+    //     //     $role->check_kepaniteraan = $request->has("check-kepaniteraan") ?? false;
+    //     //     $role->check_sdm = $request->has("check-sdm") ?? false;
+    //     //     $role->check_tu = $request->has("check-tu") ?? false;
+    //     //     $role->save();
+    //     // }
+
+    //     Alert::success('Success', "Data '$newUser->name'  Berhasil di Edit")->autoClose(3000);
+    //     $newUser->save();
+
+    //     return redirect()->back();
+    // }
+
+    // public function resetPassword(Request $request, User $newUser)
+    // {
+    //     // dd($idFaq);
+    //     $data = $request->all();
+
+
+    //     $newUser = User::find($data["id"]);
+    //     // dd($newUser);
+    //     $newUser->password = Hash::make($newUser->email);
+    //     // dd($newUser->password);
+
+    //     Alert::success('Success', "Password Berhasil di Reset");
+    //     $newUser->save();
+
+    //     return redirect()->back();
+    // }
+
+    // public function delete($id)
+    // {
+    //     $id = User::find($id);
+    //     $name = $id->name;
+
+    //     $role = Role::where('uuid', "=", $id->uuid)->get()->first();
+    //     if (!empty($role)) {
+    //         $role->delete();
+    //     }
+
+    //     $id->delete();
+    //     Alert::success('Account', $name . ", Berhasil Dihapus")->hideCloseButton();
+
+    //     return redirect()->back();
+    // }
 }
