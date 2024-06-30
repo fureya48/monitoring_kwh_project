@@ -108,7 +108,7 @@
             data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
             class="d-flex align-items-center flex-wrap me-3 row">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center fs-3 my-1">Dashboard
+                <h1 class="d-flex align-items-center fs-3 my-5">Dashboard
                 </h1>
             </div>
             <!--end::Page title-->
@@ -118,7 +118,7 @@
     <!--end::Toolbar-->
 
     <!--begin::Body Dashboard-->
-    <div id="dashboard-body" class="mt-0">
+    <div id="dashboard-body" class="mt-3">
         <!--begin::maps-->
         <div class="card mt-0 mb-5">
             <div class="card-title mt-8">

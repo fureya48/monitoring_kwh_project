@@ -10,13 +10,16 @@ use App\Models\Token;
 use App\Models\Agenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return view('user/menu_user');
+        $users = User::select(['name', 'email', 'role', 'is_active'])->get();
+        return view('user/menu_user', compact(['users']));
     }
 
     public function createForm(){
@@ -24,19 +27,38 @@ class UserController extends Controller
     }
     function store(Request $request)
     {
-        // try{.
-            $data =$request->all();
+        try {
+            $data = $request->all();
+
+            $rules = [
+                'name' => 'required|string|max:25',
+                'email' => 'required|email',
+                'password' => 'required|confirmed|min:8'
+            ];
+
+            $message = [
+                'required' => 'Input :attribute wajib diisi',
+                'email' => 'Mohon isi email dengan benar',
+                'confirmed' => 'Re-Password tidak cocok',
+                'min' => 'Jumlah character min :min,',
+                'max' => 'Jumlah character max :max,'
+            ];
+
+            Validator::make($data, $rules, $message)->validate();
+    
             $newUser = new User();
             $newUser->name = $data["name"];
+            $newUser->uuid = Str::uuid()->toString();
             $newUser->email = $data["email"];
             $newUser->password = Hash::make($data["password"]);
             $newUser->role = $data["role"];
             $newUser->save();
 
-        //     return redirect()->route('users.index')->with('success', 'User added successfully.');
-        // } catch(\Exception $e) {
-        //     return redirect()->back()->with('error', 'Failed to add user. Please try again.');
-        // }
+            Alert::success("Success", "User Berhasil Ditambahkan");
+            return redirect("/users");
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     // public function index()

@@ -59,7 +59,7 @@
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link {{ str_contains(Request::Path(), 'dokumen-po') ? 'active' : '' }}" href="/dokumen-po">
+                    <a class="menu-link {{ str_contains(Request::Path(), 'device') ? 'active' : '' }}" href="/device">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                             <span class="svg-icon-2">
@@ -72,17 +72,13 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span style="font-size: 16px; color: white" class="menu-title">Dokumen PO</span>
+                        <span style="font-size: 16px; color: white" class="menu-title">Device</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    @if (!auth()->user()->Role->is_user)
                     <a class="menu-link {{ str_contains(Request::Path(), 'account') ? 'active' : '' }}" href="/account">
-                    @else
-                    <a class="menu-link {{ str_contains(Request::Path(), 'account') ? 'active' : '' }}" href="/account/view/{{ auth()->user()->uuid }}">
-                    @endif
                         <span class="menu-icon" style="font-size: 16px">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                             <span class="svg-icon-2">
@@ -93,7 +89,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span  style="font-size: 16px; color: white" class="menu-title">Account</span>
+                        <span  style="font-size: 16px; color: white" class="menu-title">User Management</span>
                     </a>
                 </div>
                 <!--end:Menu item-->

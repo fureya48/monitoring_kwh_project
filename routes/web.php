@@ -25,13 +25,6 @@ Route::get('/', function () {
     return view('0_Welcome');
 });
 
-Route::get('/users', [UserController::class,'index'])->name('users.index');
-Route::get('/users/create', [UserController::class,'createForm'])->name('users.createForm');
-Route::post('/users', [UserController::class,'store'])->name('users.store');
-
-Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
-Route::get('/devices/create', [DeviceController::class, 'createForm'])->name('devices.createForm');
-Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
 
 // begin :: Login
 
@@ -77,6 +70,10 @@ Route::group(['middleware' => ["auth"]], function () {
 
     // end :: Login
 
+    Route::get('/dashboard', function () {
+        return view('1_dashboard_new');
+    });
+
     Route::resource('/account', UserController::class);
 
     Route::post('/account/new',  [UserController::class, 'create']);
@@ -89,99 +86,20 @@ Route::group(['middleware' => ["auth"]], function () {
 
     Route::delete('/account/delete/{id}',  [UserController::class, 'delete']);
 
-    Route::post('/dashboard-login', function (Request $request) {
-        // Redirect::to('localhost:8000/api/login');
-        // dd($request, $UserName, $UserPassword );
-        // $credentials = $request->validate([
-        //     'UserName' => ["required", "email"],
-        //     'UserPassword' => ["required"]
-        // ]);
-        // $token = STR::random(50);
-        // $data = [
-        //     'email' => $UserName,
-        //     'password' => $UserPassword
-        // ];
-        // if (Auth::attempt($data)) {
-        //     $user = auth()->user();
-        //     $token_user = $user->createToken($user->name)->plainTextToken;
-        //     // dd($token_user);
-        //     auth()->user()->forceFill([
-        //         "remember_token" => $token_user,
-        //     ])->save();
-        //     return response()->json([
-        //         "token" => $token_user,
-        //         "user" => $user,
-        //     ])->cookie("BPMCSRF", $token, 60);
-        // }
-        // return Redirect::to('https://crm.wika.co.id/api/login');
-        $loginSukses = true;
-        Alert::success("Success", "Login Berhasil");
-        return view('1_dashboard', compact(["loginSukses"]));
-    });
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get(
+        '/users/create',
+        [
+            UserController::class, 'createForm'
+        ]
+    )->name('users.createForm');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
-    Route::get('/metronic', function () {
-        return view('dashboard');
-    });
+    Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+    Route::get('/devices/create', [DeviceController::class, 'createForm'])->name('devices.createForm');
+    Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
 
-    Route::get('/dashboard', function () {
-        return view('1_dashboard_new');
-    });
 
-    Route::get('/dashboard-unit-1', function () {
-        return view('dashboard_unit_1');
-    });
-
-    Route::get('dashboard-unit-2', function () {
-        return view('dashboard_unit_2');
-    });
-
-    Route::get('dashboard-unit-3', function () {
-        return view('dashboard_unit_3');
-    });
-
-    Route::get('dashboard-unit-4', function () {
-        return view('dashboard_unit_4');
-    });
-
-    Route::get('dashboard-unit-5', function () {
-        return view('dashboard_unit_5');
-    });
-
-    Route::get('dashboard-unit-6', function () {
-        return view('dashboard_unit_6');
-    });
-
-    Route::get('dashboard-unit-7', function () {
-        return view('dashboard_unit_7');
-    });
-
-    Route::get('dashboard-unit-8', function () {
-        return view('dashboard_unit_8');
-    });
-
-    Route::get('dashboard-unit-9', function () {
-        return view('dashboard_unit_9');
-    });
-
-    Route::get('/setting', function () {
-        $cookie = Cookie::get('color');
-        $active = Cookie::get('active');
-        $chartColor = Cookie::get('chart');
-        // $chartColor = ["#017EB8", "#28B3AC", "#F7AD1A", "#9FE7F5", "#E86340", "#063F5C"];
-        // dd($cookie, $active);
-        return view('9_setting', compact(['cookie', 'active', 'chartColor']) );
-    });
-
-    Route::post('/setting/cookie', function (Request $request) {
-        // $response = new Response('Cookie');
-        // $response->withCookie(cookie('color', $request["aside-color"]);
-        $cookie = cookie()->forever('color', $request["aside-color"]);
-        $active = cookie()->forever('active', $request["active-color"]);
-        $chartColor = cookie()->forever('chart', $request["chart-color"]);
-        //  dd($request);
-        //  dd($cookie, $active, $chartColor, $request->get('chart-color'));
-        return redirect()->back()->withCookies([$cookie, $active, $chartColor]) ;
-    });
 
     Route::get(
         '/dokumen-po',
