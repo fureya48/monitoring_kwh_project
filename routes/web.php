@@ -124,7 +124,7 @@ Route::group(['middleware' => ["auth"]], function () {
     });
 
     Route::get('/dashboard', function () {
-        return view('1_dashboard');
+        return view('1_dashboard_new');
     });
 
     Route::get('/dashboard-unit-1', function () {

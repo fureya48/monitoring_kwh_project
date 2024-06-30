@@ -16,7 +16,7 @@
         <!--begin::Logo-->
         <a href="/dashboard">
             {{-- <img alt="Logo" src="/assets/media/logos/logo.png" class="h-45px logo" /> --}}
-            <h2 class="text-white">WELLCOME</h2>
+            {{-- <h2 class="text-white">WELLCOME</h2> --}}
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggler-->
