@@ -38,7 +38,7 @@
                   <!--begin::Table head-->
                   <thead>
                       <!--begin::Table row-->
-                      <tr class="text-center text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                      <tr class="text-center text-gray-400 fw-bolder fs-5 text-uppercase gs-0">
                           <th class="min-w-auto">ID</th>
                           <th class="min-w-auto">Device Name</th>
                           <th class="min-w-auto">Code Divece</th>
@@ -56,17 +56,21 @@
                   <tbody>
                       @foreach ($devices as $device)
                           <tr>
-                              <td>{{ $device->uuid }}</td>
-                              <td>{{ $device->device_name }}</td>
-                              <td>{{ $device->code_device }}</td>
-                              <td>{{ $device->longitude }}</td>
-                              <td>{{ $device->latitude }}</td>
-                              <td>{{ $device->is_active ? 'Yes' : 'No' }}</td>
+                              <td  class="text-center">{{ $device->id }}</td>
+                              <td class="text-center">{{ $device->device_name }}</td>
+                              <td class="text-center">{{ $device->code_device }}</td>
+                              <td class="text-center">{{ $device->longitude }}</td>
+                              <td class="text-center">{{ $device->latitude }}</td>
+                              <td class="text-center">{{ $device->is_active ? 'Yes' : 'No' }}</td>
                               @if (auth()->user()->role == "Admin")                
-                              <td>
-                                  <button class="btn btn-sm btn-danger">Delete</button>
-                                  <button class="btn btn-sm btn-warning">Edit</button>
-                              </td>
+                              <td class="text-center">
+                                <form action="{{ route('devices.destroy', ['id' => $device->id]) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <a href="{{ route('devices.editDevice', ['id' => $device->id]) }}" class="btn btn-warning">Edit Devices</a>
+                            </td>
                               @endif
                           </tr>
                       @endforeach
@@ -79,5 +83,7 @@
   </div>
 
 </div>
+
+
 
 @endsection

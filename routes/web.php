@@ -101,6 +101,9 @@ Route::group(['middleware' => ["auth"]], function () {
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
     Route::get('/devices/create', [DeviceController::class, 'createForm'])->name('devices.createForm');
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
+    Route::delete('/devices/{id}', [DeviceController::class,'destroy'])->name('devices.destroy');
+    Route::get('/devices/{id}/edit-devices', [DeviceController::class, 'editDevices'])->name('devices.editDevice');
+    Route::post('/devices/{id}/update-devices', [DeviceController::class,'update'])->name('devices.updateDevice');
 
 
 

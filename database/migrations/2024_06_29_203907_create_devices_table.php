@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('devices', function (Blueprint $table) {
-            $table->bigIncrements('uuid');
+            $table->id();
+            $table->string('uuid');
             $table->string('device_name', 25);
             $table->string('code_device', 10)->unique();
             $table->string('longitude', 50);

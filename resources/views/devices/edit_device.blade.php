@@ -2,7 +2,7 @@
 
 @extends('layouts.main')
 
-@section('title', 'Add Devives')
+@section('title', 'Edit Devives')
 
 @section('container')
 
@@ -29,39 +29,39 @@
             @if(session('success'))
             <p>{{ session('success') }}</p>
         @endif
-        <form action="{{ route('devices.store') }}" method="POST">
+        <form action="{{ route('devices.updateDevice', $device->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="device_name" class="form-label">Device Name</label>
-                <input type="text" value="" name="device_name" class="form-control" required maxlength="25">
+                <input type="text" value="" name="device_name" class="form-control" value="{{ old('device_name', $device->device_name) }}" placeholder={{ $device->device_name }} required maxlength="25">
                 @error('device_name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="code_device" class="form-label">Code Device</label>
-                <input type="text" value="" name="code_device" class="form-control" required maxlength="10">
+                <input type="text" value="" name="code_device" class="form-control" value="{{ old('code_device', $device->code_device) }}" placeholder={{ $device->code_device }} required maxlength="10">
                 @error('code_device')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="longitude" class="form-label">Longitude</label>
-                <input type="text" name="longitude" class="form-control" required maxlength="50">
+                <input type="text" name="longitude" class="form-control" value="{{ old('longitude', $device->longitude) }}" placeholder={{ $device->longitude }} required maxlength="50">
                 @error('longitude')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="latitude" class="form-label">Latitude</label>
-                <input type="text" name="latitude" class="form-control" required maxlength="50">
+                <input type="text" name="latitude" class="form-control" value="{{ old('latitude', $device->latitude) }}" placeholder={{ $device->latitude }} required maxlength="50">
                 @error('latitude')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="is_active" class="form-label">Is Active</label>
-                <select name='is_active' class="form-select" aria-label="Default select example" required>
+                <select name='is_active' class="form-select" aria-label="Default select example" {{ old('is_active', $device->is_active) ? 'checked' : '' }} required>
                     <option value="1">Active</option>
                     <option value="0">Unactive</option>
                 </select>
@@ -71,14 +71,12 @@
             </div>
             @if(auth()->user()->role == "Admin")
             <div class="mb-3 d-grid">
-                <button name="submit" type="submit" class="btn btn-primary">Add Devices</button>
+                <button name="submit" type="submit" class="btn btn-primary">Update Devices</button>
             </div>
             @endif
-            
         </form>
         </div>
     </div>
-
 </div>
 
 @endsection
