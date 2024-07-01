@@ -23,7 +23,14 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('users.updatePassword', Auth::user()->id) }}" method="POST">
+            <h1>Edit Password for {{ $user->name }}</h1>
+
+    @if (session('success'))
+        <div style="color: green;">
+            {{ session('success') }}
+        </div>
+    @endif
+            <form action="{{ route('users.updatePassword', $user->id) }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="old_password">Password Lama</label>

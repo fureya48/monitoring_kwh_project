@@ -2,7 +2,7 @@
 
 @extends('layouts.main')
 
-@section('title', 'Add User')
+@section('title', 'Add Devives')
 
 @section('container')
 
@@ -16,10 +16,11 @@
             data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
             class="d-flex align-items-center flex-wrap me-3 row">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center fs-3 my-1">Dashboard
+                <h1 class="d-flex align-items-center fs-3 my-5">Dashboard
                 </h1>
             </div>
-            <!--end::Page title-->
+            <a href="{{ route('devices.index') }}" class="btn btn-sm btn-danger">Back</a>
+                <!--end::Page title-->
         </div>
         <!--end::Container-->
     </div>

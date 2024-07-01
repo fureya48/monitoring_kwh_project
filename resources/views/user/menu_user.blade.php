@@ -40,7 +40,9 @@
                                 <th class="min-w-auto">Email</th>
                                 <th class="min-w-auto">Role</th>
                                 <th class="min-w-auto">Active</th>
+                                @if (auth()->user()->role == "Admin")
                                 <th class="min-w-auto">Action</th>
+                                @endif
                             </tr>
                             <!--end::Table row-->
                         </thead>
@@ -53,6 +55,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->is_active ? 'Yes' : 'No' }}</td>
+                                    @if (auth()->user()->role == "Admin")
                                     <td>
                                         <form action="{{ route('users.destroy', ['id' => $user->id]) }}" method="POST" style="display:inline-block;">
                                             @csrf
@@ -61,6 +64,7 @@
                                         </form>
                                         <a href="{{ route('users.editPassword', ['id' => $user->id]) }}" class="btn btn-warning">Change Password</a>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

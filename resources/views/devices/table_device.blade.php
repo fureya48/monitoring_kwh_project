@@ -2,7 +2,7 @@
 
 @extends('layouts.main')
 
-@section('title', 'Menu User')
+@section('title', 'Menu Device')
 
 @section('container')
 
@@ -21,7 +21,8 @@
           @if (auth()->user()->role == "Admin")
               <a href="{{ route('devices.createForm') }}">
                   <button name="submit" type="submit" class="btn btn-primary btn-sm">Add Devices</button>
-              </a>                    
+              </a>    
+                          
           @endif
           <!--end::Page title-->
       </div>
@@ -44,7 +45,9 @@
                           <th class="min-w-auto">Longitude</th>
                           <th class="min-w-auto">Latitude</th>
                           <th class="min-w-auto">Active</th>
-                          <th class="min-w-auto">Action</th>
+                          @if (auth()->user()->role == "Admin")                
+                            <th class="min-w-auto">Action</th>
+                          @endif
                       </tr>
                       <!--end::Table row-->
                   </thead>
@@ -53,16 +56,18 @@
                   <tbody>
                       @foreach ($devices as $device)
                           <tr>
-                              <td>{{ $device->id }}</td>
+                              <td>{{ $device->uuid }}</td>
                               <td>{{ $device->device_name }}</td>
                               <td>{{ $device->code_device }}</td>
                               <td>{{ $device->longitude }}</td>
                               <td>{{ $device->latitude }}</td>
                               <td>{{ $device->is_active ? 'Yes' : 'No' }}</td>
+                              @if (auth()->user()->role == "Admin")                
                               <td>
                                   <button class="btn btn-sm btn-danger">Delete</button>
                                   <button class="btn btn-sm btn-warning">Edit</button>
                               </td>
+                              @endif
                           </tr>
                       @endforeach
                   </tbody>
