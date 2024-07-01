@@ -94,6 +94,9 @@ Route::group(['middleware' => ["auth"]], function () {
         ]
     )->name('users.createForm');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{id}/edit-password', [UserController::class, 'editPassword'])->name('users.editPassword');
+    Route::post('/users/{id}/update-password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
 
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
     Route::get('/devices/create', [DeviceController::class, 'createForm'])->name('devices.createForm');

@@ -54,7 +54,12 @@
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->is_active ? 'Yes' : 'No' }}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <form action="{{ route('users.destroy', ['id' => $user->id]) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                        <a href="{{ route('users.editPassword', ['id' => $user->id]) }}" class="btn btn-warning">Change Password</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -1,20 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <title>Login</title>
-</head>
-<body>
-    <div class="container py-5">
-        <div class="w-50 center border rounded px-3 py-3 mx-auto">
-        <h1>Add Device</h1>
-        {{-- @if(session('success'))
+
+
+@extends('layouts.main')
+
+@section('title', 'Add User')
+
+@section('container')
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div style=" height:auto" class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
+            data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+            class="d-flex align-items-center flex-wrap me-3 row">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center fs-3 my-1">Dashboard
+                </h1>
+            </div>
+            <!--end::Page title-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <div class="card">
+        <div class="card-body">
+            @if(session('success'))
             <p>{{ session('success') }}</p>
-        @endif --}}
+        @endif
         <form action="{{ route('devices.store') }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -47,7 +60,9 @@
             @endif
             
         </form>
-    </div> 
+        </div>
     </div>
-</body>
-</html>
+
+</div>
+
+@endsection

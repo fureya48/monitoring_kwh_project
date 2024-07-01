@@ -18,11 +18,12 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::select(['name', 'email', 'role', 'is_active'])->get();
+        $users = User::select(['id', 'name', 'email', 'role', 'is_active'])->get();
         return view('user/menu_user', compact(['users']));
     }
 
-    public function createForm(){
+    public function createForm()
+    {
         return view('user/add_user');
     }
     function store(Request $request)
@@ -45,7 +46,7 @@ class UserController extends Controller
             ];
 
             Validator::make($data, $rules, $message)->validate();
-    
+
             $newUser = new User();
             $newUser->name = $data["name"];
             $newUser->uuid = Str::uuid()->toString();
@@ -59,6 +60,55 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        Alert::success("Success", "User Berhasil Dihapus");
+        return redirect()->route('users.index');
+    }
+
+    public function editPassword($id)
+    {
+        $user = User::findOrFail($id);
+        return view('user.edit_password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $rules = [
+            'old_password' => 'required',
+            'password' => 'required|confirmed|min:8'
+        ];
+
+        $message = [
+            'old_password.required' => 'Input password lama wajib diisi',
+            'password.required' => 'Input password baru wajib diisi',
+            'password.confirmed' => 'Re-Password tidak cocok',
+            'password.min' => 'Jumlah character min :min,'
+        ];
+
+        Validator::make($data, $rules, $message)->validate();
+
+        $user = User::findOrFail($id);
+
+        // Check if old password is correct
+        if (!Hash::check($data['old_password'], $user->password)) {
+            Alert::error("Error", "Password lama tidak cocok");
+            return redirect()->back()->withInput();
+        }
+
+        // Update password
+        $user->password = Hash::make($data["password"]);
+        $user->save();
+
+        Alert::success("Success", "Password Berhasil Diubah");
+        return redirect("/users");
     }
 
     // public function index()

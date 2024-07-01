@@ -59,7 +59,7 @@
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link {{ str_contains(Request::Path(), 'device') ? 'active' : '' }}" href="/device">
+                    <a class="menu-link {{ str_contains(Request::Path(), 'devices') ? 'active' : '' }}" href="/devices">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                             <span class="svg-icon-2">
